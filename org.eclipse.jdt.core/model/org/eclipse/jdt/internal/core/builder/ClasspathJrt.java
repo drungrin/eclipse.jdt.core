@@ -14,6 +14,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.DirectoryStream;
+import java.nio.file.FileSystemAlreadyExistsException;
 import java.nio.file.FileSystemNotFoundException;
 import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
@@ -194,6 +195,9 @@ public void initialize() {
 		try {
 			this.fs = FileSystems.newFileSystem(uri, env);
 		} catch (IOException e) {
+			this.release = null;
+			return;		
+		} catch (FileSystemAlreadyExistsException fae) {
 			this.release = null;
 			return;
 		}
